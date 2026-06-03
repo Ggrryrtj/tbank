@@ -456,15 +456,6 @@ function screenOpDetails() {
             <div style="font-size:17px;font-weight:600">${op.phone}</div>
           </div>
         </div>` : ''}
-        ${state.showDetails ? `
-        <div class="_card_55ji0_138" style="margin-top:10px">
-          <div class="_cardTitle_55ji0_153" style="margin-bottom:10px">Детали операции</div>
-          <div class="_detailRow_55ji0_202"><span class="_detailLabel_55ji0_210">Статус</span><span class="_detailValue_55ji0_215" style="color:#34c759">Успешно</span></div>
-          <div class="_detailRow_55ji0_202"><span class="_detailLabel_55ji0_210">Сумма</span><span class="_detailValue_55ji0_215">${fmtInt(op.amt)} ₽</span></div>
-          <div class="_detailRow_55ji0_202"><span class="_detailLabel_55ji0_210">Комиссия</span><span class="_detailValue_55ji0_215">Без комиссии</span></div>
-          <div class="_detailRow_55ji0_202"><span class="_detailLabel_55ji0_210">Отправитель</span><span class="_detailValue_55ji0_215">${state.senderName}</span></div>
-          <div class="_detailRow_55ji0_202"><span class="_detailLabel_55ji0_210">Получатель</span><span class="_detailValue_55ji0_215">${op.name}</span></div>
-        </div>` : ''}
         ${isTransferOut ? `
         <div style="padding:14px 16px 0">
           <button class="_submitBtn_1t5vl_173 _submitBtnActive_1t5vl_184" data-go="receipt">Получить квитанцию</button>
