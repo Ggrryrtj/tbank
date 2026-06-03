@@ -456,10 +456,6 @@ function screenOpDetails() {
             <div style="font-size:17px;font-weight:600">${op.phone}</div>
           </div>
         </div>` : ''}
-        ${isTransferOut ? `
-        <div style="padding:14px 16px 0">
-          <button class="_submitBtn_1t5vl_173 _submitBtnActive_1t5vl_184" data-go="receipt">Получить квитанцию</button>
-        </div>` : ''}
         <div style="height:30px"></div>
       </div>
       <div id="sheet"></div>
