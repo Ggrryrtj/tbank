@@ -12,7 +12,6 @@
   --app-height: 100vh;
   --app-midpoint: 50vh;
   --app-header-height: max(70px, calc(var(--safe-top) + 44px));
-  --demo-footer-height: calc(22px + var(--safe-bottom));
 }
 
 @supports (height: 100dvh) {
@@ -32,17 +31,16 @@ button svg { flex-shrink: 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .demo-status { position: relative; display: flex; justify-content: center; align-items: flex-start; flex-shrink: 0; width: 100%; height: var(--app-header-height); padding: max(20px, calc(var(--safe-top) + 4px)) 16px 0; background: #000; color: #fff; }
 .status-brand { display: flex; align-items: center; justify-content: center; background: var(--yellow); color: #303132; border-radius: 20px; height: 22px; min-width: 87px; max-width: 100%; padding-inline: 15px; font-weight: 900; font-size: 12px; letter-spacing: -.2px; white-space: nowrap; }
-.app-demo-caption { position: relative; z-index: 60; flex-shrink: 0; margin-top: auto; width: 100%; min-height: var(--demo-footer-height); padding: 4px 16px calc(4px + var(--safe-bottom)); background: #fff; color: #899096; font-size: 10px; line-height: 14px; text-align: center; pointer-events: none; }
 
 /* Operation sheet */
 .detail-screen { background: #fff; }
-.operation-sheet, .receipt-sheet { position: relative; z-index: 0; flex: 1; width: 100%; border-radius: 11px 11px 0 0; background: #fff; min-height: calc(var(--app-height) - var(--app-header-height) - var(--demo-footer-height)); }
+.operation-sheet, .receipt-sheet { position: relative; z-index: 0; flex: 1; width: 100%; border-radius: 11px 11px 0 0; background: #fff; min-height: calc(var(--app-height) - var(--app-header-height)); }
 .operation-sheet::before, .receipt-sheet::before { content: ''; position: absolute; z-index: -1; top: -10px; left: 16px; right: 16px; height: 10px; border-radius: 12px 12px 0 0; background: #ddd; }
 .operation-top { position: relative; display: flex; justify-content: center; align-items: center; min-height: 68px; padding: 20px 51px; }
 .operation-date { font-size: 15px; font-weight: 400; color: var(--ink); text-align: center; }
 .operation-close { position: absolute; right: 16px; top: 20px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #f6f7f7; }
 .operation-close svg { width: 19px; height: 19px; }
-.operation-content { padding-bottom: 24px; }
+.operation-content { padding-bottom: calc(24px + var(--safe-bottom)); }
 .operation-hero { display: flex; flex-direction: column; align-items: center; padding-inline: 20px; }
 .operation-logo { display: block; width: 78px; height: 78px; margin-bottom: 16px; }
 .operation-name { margin: 0; font-size: 17px; font-weight: 400; line-height: 24px; max-width: 100%; overflow-wrap: anywhere; text-align: center; }
@@ -81,7 +79,7 @@ button svg { flex-shrink: 0; }
 .receipt-close { justify-self: start; background: none; padding-block: 10px; color: var(--blue); font-size: 17px; }
 .receipt-share { justify-self: end; display: grid; place-items: center; width: 30px; height: 36px; background: none; }
 .receipt-share svg { width: 24px; height: 24px; }
-.receipt-scroll { padding: 0 6px 22px; }
+.receipt-scroll { padding: 0 6px calc(22px + var(--safe-bottom)); }
 .receipt-paper { position: relative; overflow: hidden; padding: 38px 27px 31px; background: #fff; border: 1px solid #ececec; border-top: none; box-shadow: 0 1px 5px #0000000b; }
 .receipt-logo { display: block; width: 47px; height: 41px; margin: 0 auto 32px; }
 .receipt-date { color: #999; font-size: 10px; line-height: 14px; margin-bottom: 6px; }
@@ -110,7 +108,7 @@ button svg { flex-shrink: 0; }
 /* Reference IMG_4796: sheet rises, the complete check springs into place, a
    green pulse expands, then the same check travels to the small status badge. */
 .confirmation-screen { background: #fff; }
-.confirmation-sheet { position: relative; flex: 1; width: 100%; min-height: max(640px, calc(var(--app-height) - var(--app-header-height) - var(--demo-footer-height))); border-radius: 12px 12px 0 0; background: #fff; overflow: hidden; }
+.confirmation-sheet { position: relative; flex: 1; width: 100%; min-height: max(640px, calc(var(--app-height) - var(--app-header-height))); border-radius: 12px 12px 0 0; background: #fff; overflow: hidden; }
 .confirmation-close { position: absolute; left: 20px; top: 18px; z-index: 5; padding: 1px 0 10px; color: var(--blue); font-size: 17px; background: none; }
 .confirmation-bank { position: absolute; top: 58px; left: 50%; width: 80px; height: 80px; transform: translateX(-50%); opacity: 0; z-index: 2; transition: opacity 300ms ease 140ms; }
 .confirmation-bank > svg { display: block; width: 100%; height: 100%; }
@@ -130,7 +128,7 @@ button svg { flex-shrink: 0; }
 .confirmation-account .operation-account { gap: 16px; }
 .confirmation-balances { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; color: #8e9497; font-size: 13px; line-height: 19px; }
 .confirmation-balances s { text-decoration-thickness: 1px; }
-.confirmation-done { position: absolute; bottom: 20px; left: 16px; right: 16px; min-height: 58px; padding: 14px; background: #ffdd2d; font-size: 18px; border-radius: 17px; }
+.confirmation-done { position: absolute; bottom: calc(20px + var(--safe-bottom)); left: 16px; right: 16px; min-height: 58px; padding: 14px; background: #ffdd2d; font-size: 18px; border-radius: 17px; }
 .confirmation-sheet[data-phase="intro"] { animation: confirmationSheetIn 500ms cubic-bezier(.2,.75,.26,1) both; }
 .confirmation-sheet[data-phase="intro"] .confirmation-tick { animation: confirmationBounce 650ms 140ms both; }
 .confirmation-sheet[data-phase="intro"] .confirmation-pulse { animation: confirmationPulse 800ms 570ms both; }
@@ -156,8 +154,8 @@ button svg { flex-shrink: 0; }
 
 /* Shared mobile fixes. Legacy class names belong to the supplied application. */
 ._screen_riypy_1, ._screen_15ho2_1, ._screen_1t5vl_1, ._screen_55ji0_1, ._screen_cjsg3_1, ._screen_1vfp6_1 { min-height: var(--app-height); }
-._nav_1h6e9_1 { padding-bottom: calc(max(12px, var(--safe-bottom)) + 22px); }
-._fab_15ho2_229 { bottom: calc(96px + var(--safe-bottom)); }
+._nav_1h6e9_1 { padding-bottom: max(12px, var(--safe-bottom)); }
+._fab_15ho2_229 { bottom: calc(74px + var(--safe-bottom)); }
 ._footer_1t5vl_167 { padding-bottom: max(16px, var(--safe-bottom)); }
 ._screen_1t5vl_1 .demo-notice { margin: 0; padding: 0 16px 10px; }
 ._header_1vfp6_11, ._header_1t5vl_11, ._header_15ho2_12 { min-height: 51px; }
@@ -191,5 +189,5 @@ button svg { flex-shrink: 0; }
   .receipt-sheet::before { display: none; }
   .receipt-scroll { padding: 0; }
   .receipt-paper { border: 0; box-shadow: none; }
-  .receipt-watermarks, .receipt-sample-caption, .app-demo-caption { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .receipt-watermarks, .receipt-sample-caption { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }

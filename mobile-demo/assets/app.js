@@ -752,7 +752,6 @@ function render() {
     settings: screenSettings,
   };
   root.innerHTML = (screens[state.screen] || screenHome)();
-  root.firstElementChild?.insertAdjacentHTML('beforeend', '<footer class="app-demo-caption">Учебный макет</footer>');
   attachHandlers();
   if (previousScreen !== state.screen) window.scrollTo(0, 0);
 }
