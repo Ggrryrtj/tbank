@@ -644,13 +644,13 @@ function screenReceipt() {
             <img src="assets/reference-stamp.png" class="receipt-reference-stamp" alt="Изображение печати из референса, учебный образец">
             <div class="receipt-divider"></div>
             <footer class="receipt-footer">
-              <p>Квитанция № ${escapeHTML(tr.receiptNo || 'DEMO-' + tr.id)}</p>
+              <p>Квитанция № 1-102-467-157-376</p>
               <p>По вопросам зачисления обращайтесь к получателю</p>
               <p>Служба поддержки fb@tbank.ru</p>
             </footer>
-            <div class="receipt-watermarks" aria-hidden="true"><span>ОБРАЗЕЦ · ДЕМО</span><span>ОБРАЗЕЦ · ДЕМО</span><span>ОБРАЗЕЦ · ДЕМО</span></div>
+            <div class="receipt-watermarks" aria-hidden="true"><span></span><span></span><span></span></div>
           </article>
-          <p class="receipt-sample-caption">Учебный образец. Не является банковским документом.</p>
+          <p class="receipt-sample-caption" </p>
         </div>
       </section>
     </div>
