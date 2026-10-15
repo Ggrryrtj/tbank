@@ -502,7 +502,7 @@ function screenTransferSuccess() {
         </section>
         <button class="confirmation-done" data-go="opDetails">Готово</button>
       </div>
-      <span class="sr-only" role="status">Демоперевод выполнен. Реальный платёж не выполнялся.</span>
+      <span class="sr-only" role="status"></span>
     </section>
   </div>`;
 }
@@ -660,7 +660,7 @@ function screenReceipt() {
 async function shareReceipt() {
   const op = state.selectedOp;
   if (!op) return;
-  const text = `ОБРАЗЕЦ. Не является банковским документом.\nДемонстрационная операция № DEMO-${op.id}\nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
+  const text = `\nДемонстрационная операция № 1-102-467-157-376  \nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
   try {
     if (navigator.share) {
       await navigator.share({ title: 'Образец квитанции — ДЕМО', text });
