@@ -11,7 +11,7 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --app-height: 100vh;
   --app-midpoint: 50vh;
-  --app-header-height: max(70px, calc(var(--safe-top) + 44px));
+  --app-header-height: 70px;
 }
 
 @supports (height: 100dvh) {
@@ -28,12 +28,20 @@ button { color: inherit; }
 button:focus-visible, [tabindex]:focus-visible { outline: 3px solid #438cf580; outline-offset: 3px; }
 button:disabled { cursor: default; }
 button svg { flex-shrink: 0; }
+.bank-logo { display: block; flex-shrink: 0; }
+.bank-logo img, .bank-logo svg { display: block; width: 100%; height: 100%; }
+.operation-list-bank { width: 44px; height: 44px; }
+.bank-select-row { display: flex; align-items: center; gap: 12px; }
+#bankPreview .bank-logo { width: 36px; height: 36px; }
+.bank-select { flex: 1; min-width: 0; min-height: 44px; border: 0; border-radius: 8px; background: #f5f6f8; padding: 8px 10px; color: var(--ink); font: inherit; font-size: 16px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.demo-status { position: relative; display: flex; justify-content: center; align-items: flex-start; flex-shrink: 0; width: 100%; height: var(--app-header-height); padding: max(20px, calc(var(--safe-top) + 4px)) 16px 0; background: #000; color: #fff; }
+/* The standalone iPhone page covers the status area. Adding its safe inset here
+   a second time pushes the brand and the entire sheet below the reference. */
+.demo-status { position: relative; display: flex; justify-content: center; align-items: flex-start; flex-shrink: 0; width: 100%; height: var(--app-header-height); padding: 20px 16px 0; background: #000; color: #fff; }
 .status-brand { display: flex; align-items: center; justify-content: center; background: var(--yellow); color: #303132; border-radius: 20px; height: 22px; min-width: 87px; max-width: 100%; padding-inline: 15px; font-weight: 900; font-size: 12px; letter-spacing: -.2px; white-space: nowrap; }
 
 /* Operation sheet */
-.detail-screen { background: #fff; }
+.detail-screen { background: #000; }
 .operation-sheet, .receipt-sheet { position: relative; z-index: 0; flex: 1; width: 100%; border-radius: 11px 11px 0 0; background: #fff; min-height: calc(var(--app-height) - var(--app-header-height)); }
 .operation-sheet::before, .receipt-sheet::before { content: ''; position: absolute; z-index: -1; top: -10px; left: 16px; right: 16px; height: 10px; border-radius: 12px 12px 0 0; background: #ddd; }
 .operation-top { position: relative; display: flex; justify-content: center; align-items: center; min-height: 68px; padding: 20px 51px; }
@@ -111,7 +119,6 @@ button svg { flex-shrink: 0; }
 .confirmation-sheet { position: relative; flex: 1; width: 100%; min-height: max(640px, calc(var(--app-height) - var(--app-header-height))); border-radius: 12px 12px 0 0; background: #fff; overflow: hidden; }
 .confirmation-close { position: absolute; left: 20px; top: 18px; z-index: 5; padding: 1px 0 10px; color: var(--blue); font-size: 17px; background: none; }
 .confirmation-bank { position: absolute; top: 58px; left: 50%; width: 80px; height: 80px; transform: translateX(-50%); opacity: 0; z-index: 2; transition: opacity 300ms ease 140ms; }
-.confirmation-bank > svg { display: block; width: 100%; height: 100%; }
 .confirmation-tick { position: absolute; top: calc(var(--app-midpoint) - var(--app-header-height) - 15px); left: 50%; width: 80px; height: 80px; border-radius: 50%; border: 0 solid #fff; background: #2bc955; display: grid; place-items: center; transform: translate(-50%, -50%); z-index: 3; transition: top 560ms cubic-bezier(.22,.8,.25,1), left 560ms cubic-bezier(.22,.8,.25,1), width 560ms cubic-bezier(.22,.8,.25,1), height 560ms cubic-bezier(.22,.8,.25,1), border-width 560ms ease; }
 .confirmation-tick > svg { width: 62%; height: 62%; }
 .confirmation-amount { position: absolute; top: calc(var(--app-midpoint) - var(--app-header-height) + 50px); left: 16px; right: 16px; font-size: 30px; font-weight: 700; line-height: 36px; letter-spacing: -.8px; text-align: center; z-index: 3; overflow-wrap: anywhere; transition: top 560ms cubic-bezier(.22,.8,.25,1); }

@@ -9,7 +9,7 @@ const DEFAULT_STATE = {
   screen: 'home',
   selectedOp: null,
   lastTransfer: null,
-  transfer: { amount: '', phone: '', name: '' },
+  transfer: { amount: '', phone: '', name: '', bankId: 'tbank' },
   operations: [
     { id: 1, date: '24 марта', name: 'Фирузахон А.', cat: 'Переводы', sub: 'Дебетовая карта', amt: 300, sign: '+', av: { img: true }, group: '+1 186,85 ₽' },
     { id: 2, date: '24 марта', name: 'Ашан', cat: 'Супермаркеты', sub: 'Дебетовая карта', amt: 99.99, sign: '-', av: { letter: 'А', bg: '#e63946' } },
@@ -146,6 +146,20 @@ Object.assign(ICONS, {
   receipt: svg('<path d="M5 3h14v19l-3-2-4 2-4-2-3 2V3Z" fill="#8CB9FA"/><path d="M3 2h18v3H3V2Z" fill="#438CF5"/><path d="M8 9h8M8 13h6" stroke="#438CF5" stroke-width="2" stroke-linecap="round"/>'),
   sbp: svg('<path d="M2 2v20l6-5V7L2 2Z" fill="#784B9F"/><path d="m2 2 12 7-6 4V7L2 2Z" fill="#E62C6C"/><path d="m2 22 12-7-6-4v6l-6 5Z" fill="#28A8DD"/><path d="m9 7 12 7-7 4-5-3 6-1-6-4V7Z" fill="#42B472"/><path d="m9 7 12 7-5-8-7-5v6Z" fill="#F7B42C"/>', 32, 23),
 });
+
+// ============ RECIPIENT BANKS ============
+const BANKS = [
+  { id: 'tbank', name: 'Т-Банк', logo: 'assets/banks/tbank.png' },
+  { id: 'sber', name: 'Сбер', logo: 'assets/banks/sber.png' },
+  { id: 'wb', name: 'WB Банк', logo: 'assets/banks/wb.png' },
+  { id: 'gazprom', name: 'Газпромбанк', logo: 'assets/banks/gazprom.png' },
+];
+const bankById = id => BANKS.find(bank => bank.id === id) || BANKS[0];
+
+function bankLogo(bankId, className = '') {
+  const bank = bankById(bankId);
+  return `<span class="bank-logo ${className}" role="img" aria-label="${bank.name}"><img src="${bank.logo}" alt=""></span>`;
+}
 
 // ============ COMPONENTS ============
 function statusBar() {
@@ -308,13 +322,14 @@ function groupedOps() {
 }
 
 function renderOp(op) {
-  const av = op.av.img
-    ? `<img src="assets/transfer-mark.svg" alt="" style="width:44px;height:44px;border-radius:22px;object-fit:cover">`
+  const hasBankLogo = Boolean(op.bankId || op.av.img);
+  const av = hasBankLogo
+    ? bankLogo(op.bankId, 'operation-list-bank')
     : `<div class="_opAvatar_15ho2_172" style="background:${op.av.bg}"><span class="_opLetter_15ho2_183">${escapeHTML(op.av.letter)}</span></div>`;
-  const wrapStart = op.av.img
+  const wrapStart = hasBankLogo
     ? `<div class="_opAvatar_15ho2_172" style="background:transparent">`
     : '';
-  const wrapEnd = op.av.img ? `</div>` : '';
+  const wrapEnd = hasBankLogo ? `</div>` : '';
   const color = op.sign === '+' ? '#34c759' : '#1c1c1e';
   const amtTxt = (op.sign === '+' ? '+' : '') + fmt(op.amt) + ' ₽';
   return `
@@ -426,6 +441,15 @@ function screenTransfer() {
             <label class="_label_1t5vl_95" for="rcpt">Имя получателя</label>
             <input id="rcpt" class="_input_1t5vl_102" type="text" autocomplete="off" placeholder="Получатель демоперевода" maxlength="60" value="${escapeHTML(t.name)}">
           </div>
+          <div class="_fieldRow_1t5vl_87">
+            <label class="_label_1t5vl_95" for="recipientBank">Банк получателя</label>
+            <div class="bank-select-row">
+              <div id="bankPreview" aria-hidden="true">${bankLogo(t.bankId)}</div>
+              <select id="recipientBank" class="bank-select">
+                ${BANKS.map(bank => `<option value="${bank.id}" ${bank.id === bankById(t.bankId).id ? 'selected' : ''}>${bank.name}</option>`).join('')}
+              </select>
+            </div>
+          </div>
         </div>
         <p class="_accountCardLabel_1t5vl_125">Списать с</p>
         <div class="_accountCard_1t5vl_116">
@@ -457,9 +481,7 @@ function screenTransferSuccess() {
     <section class="confirmation-sheet" id="confirmationSheet" data-phase="${phase}" aria-label="Результат демонстрационного перевода">
       <button class="confirmation-close" data-go="home">Закрыть</button>
       <div class="confirmation-pulse" aria-hidden="true"></div>
-      <div class="confirmation-bank" aria-hidden="true">
-        <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="40" fill="#179C35"/><path d="M58 25a23 23 0 1 0 4 23" stroke="white" stroke-width="5" stroke-linecap="round"/><path d="m30 38 9 7 21-16" stroke="white" stroke-width="5" stroke-linecap="square" stroke-linejoin="round"/></svg>
-      </div>
+      ${bankLogo(op.bankId, 'confirmation-bank')}
       <div class="confirmation-tick" aria-hidden="true">${ICONS.successCheck}</div>
       <div class="confirmation-amount">−${fmt(op.amt)} ₽</div>
       <div class="confirmation-details" id="confirmationDetails" ${phase === 'intro' ? 'inert' : ''}>
@@ -500,7 +522,7 @@ function screenOpDetails() {
         </div>
         <div class="operation-content">
           <div class="operation-hero">
-            <img src="assets/transfer-mark.svg" class="operation-logo" alt="">
+            ${bankLogo(op.bankId, 'operation-logo')}
             <h1 class="operation-name">${escapeHTML(op.name)}</h1>
             <div class="operation-badges">
               <span class="operation-category">${ICONS.category}<span>${escapeHTML(op.cat)}</span></span>
@@ -779,6 +801,7 @@ function attachHandlers() {
   const amt = document.getElementById('amt');
   const phone = document.getElementById('phone');
   const rcpt = document.getElementById('rcpt');
+  const recipientBank = document.getElementById('recipientBank');
   if (amt) {
     amt.addEventListener('input', () => {
       state.transfer.amount = amt.value.replace(/[^\d.,]/g, '');
@@ -799,6 +822,12 @@ function attachHandlers() {
       updateSubmitBtn();
     });
   }
+  if (recipientBank) {
+    recipientBank.addEventListener('change', () => {
+      state.transfer.bankId = bankById(recipientBank.value).id;
+      document.getElementById('bankPreview').innerHTML = bankLogo(state.transfer.bankId);
+    });
+  }
   const submit = document.getElementById('submitTransfer');
   if (submit) {
     submit.addEventListener('click', doTransfer);
@@ -807,7 +836,7 @@ function attachHandlers() {
   const repeat = document.getElementById('repeatOp');
   if (repeat) repeat.onclick = () => {
     const op = state.selectedOp;
-    setState({ screen: 'transfer', transfer: { amount: String(op.amt).replace('.', ','), phone: op.phone ? formatPhone(op.phone) : '', name: op.name } });
+    setState({ screen: 'transfer', transfer: { amount: String(op.amt).replace('.', ','), phone: op.phone ? formatPhone(op.phone) : '', name: op.name, bankId: bankById(op.bankId).id } });
   };
   const favorite = document.getElementById('favoriteOp');
   if (favorite) favorite.onclick = () => {
@@ -976,7 +1005,8 @@ function doTransfer() {
     sub: 'Дебетовая карта',
     amt: num,
     sign: '-',
-    av: { letter: initial(t.name), bg: randomColor() },
+    av: { img: true },
+    bankId: bankById(t.bankId).id,
     phone: t.phone,
     receiptDate: nowReceiptDate(),
     receiptNo: `DEMO-${id}`,
@@ -988,7 +1018,7 @@ function doTransfer() {
   setState({
     operations: newOps,
     balance: op.balanceAfter,
-    transfer: { amount: '', phone: '', name: '' },
+    transfer: { ...DEFAULT_STATE.transfer },
     selectedOp: op,
     lastTransfer: op,
     screen: 'transferSuccess',
@@ -1002,7 +1032,7 @@ if (isPreview) {
     id: 1000, date: '10 октября', dateLong: '10 октября • 21:28',
     name: 'Получатель Т.', senderName: 'Демо Отправитель',
     cat: 'Переводы', sub: 'Дебетовая карта', amt: 210, sign: '-',
-    av: { img: true }, phone: '+7 (000) 000-00-00', balanceBefore: 10116.37, balanceAfter: 9906.37,
+    av: { img: true }, bankId: 'tbank', phone: '+7 (000) 000-00-00', balanceBefore: 10116.37, balanceAfter: 9906.37,
     receiptDate: '10.10.2026  21:28:42', receiptNo: 'DEMO-1000',
   };
   state = { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), balance: 9906.37,
