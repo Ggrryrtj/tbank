@@ -7,41 +7,42 @@
   --ink: #303132;
   --muted: #989b9f;
   --yellow: #ffe334;
+  --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --app-height: 100vh;
+  --app-midpoint: 50vh;
+  --app-header-height: max(70px, calc(var(--safe-top) + 44px));
+  --demo-footer-height: calc(22px + var(--safe-bottom));
 }
 
-html, body { min-height: 100%; background: #e9ebee; }
+@supports (height: 100dvh) {
+  :root { --app-height: 100dvh; --app-midpoint: 50dvh; }
+}
+
+html, body { min-height: 100%; background: #fff; }
 html { scrollbar-width: none; }
 html::-webkit-scrollbar { display: none; }
-body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; color: var(--ink); line-height: 1.25; }
-#root { max-width: var(--app-width); margin-inline: auto; background: #000; min-height: 100svh; isolation: isolate; }
+body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; color: var(--ink); line-height: 1.25; min-height: var(--app-height); }
+#root { max-width: var(--app-width); margin-inline: auto; background: #fff; min-height: var(--app-height); isolation: isolate; }
 button, input { font: inherit; }
 button { color: inherit; }
 button:focus-visible, [tabindex]:focus-visible { outline: 3px solid #438cf580; outline-offset: 3px; }
 button:disabled { cursor: default; }
 button svg { flex-shrink: 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.demo-status { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; flex-shrink: 0; width: 100%; height: 70px; padding: 20px 35px 0 40px; background: #000; color: #fff; }
-.status-clock { display: flex; align-items: center; gap: 4px; font-size: 17px; font-weight: 650; line-height: 22px; letter-spacing: -.4px; white-space: nowrap; }
-.status-clock ._time_12kgh_9 { color: inherit; font-size: inherit; font-weight: inherit; }
-.status-clock svg { width: 14px; height: 17px; }
-.status-brand { display: flex; align-items: center; justify-content: center; background: var(--yellow); color: #303132; border-radius: 20px; height: 22px; padding-inline: 15px; font-weight: 900; font-size: 12px; letter-spacing: -.2px; white-space: nowrap; }
-.status-symbols { display: flex; align-items: center; justify-content: flex-end; gap: 6px; height: 22px; padding-left: 8px; }
-.status-symbols svg { width: 17px; height: 14px; }
-.status-battery { height: 14px; width: 25px; border-radius: 4px; background: #48484a; position: relative; font-size: 10px; font-weight: 700; text-align: center; line-height: 14px; }
-.status-battery::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 24%; background: #35c96b; border-radius: 4px 0 0 4px; }
-.status-battery span { position: relative; }
-.status-demo { position: absolute; top: 48px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 650; letter-spacing: 1.3px; color: #bebfc3; }
+.demo-status { position: relative; display: flex; justify-content: center; align-items: flex-start; flex-shrink: 0; width: 100%; height: var(--app-header-height); padding: max(20px, calc(var(--safe-top) + 4px)) 16px 0; background: #000; color: #fff; }
+.status-brand { display: flex; align-items: center; justify-content: center; background: var(--yellow); color: #303132; border-radius: 20px; height: 22px; min-width: 87px; max-width: 100%; padding-inline: 15px; font-weight: 900; font-size: 12px; letter-spacing: -.2px; white-space: nowrap; }
+.app-demo-caption { position: relative; z-index: 60; flex-shrink: 0; margin-top: auto; width: 100%; min-height: var(--demo-footer-height); padding: 4px 16px calc(4px + var(--safe-bottom)); background: #fff; color: #899096; font-size: 10px; line-height: 14px; text-align: center; pointer-events: none; }
 
 /* Operation sheet */
-.detail-screen { background: #000; }
-.operation-sheet, .receipt-sheet { position: relative; z-index: 0; width: 100%; border-radius: 11px 11px 0 0; background: #fff; min-height: calc(100svh - 70px); }
+.detail-screen { background: #fff; }
+.operation-sheet, .receipt-sheet { position: relative; z-index: 0; flex: 1; width: 100%; border-radius: 11px 11px 0 0; background: #fff; min-height: calc(var(--app-height) - var(--app-header-height) - var(--demo-footer-height)); }
 .operation-sheet::before, .receipt-sheet::before { content: ''; position: absolute; z-index: -1; top: -10px; left: 16px; right: 16px; height: 10px; border-radius: 12px 12px 0 0; background: #ddd; }
 .operation-top { position: relative; display: flex; justify-content: center; align-items: center; min-height: 68px; padding: 20px 51px; }
 .operation-date { font-size: 15px; font-weight: 400; color: var(--ink); text-align: center; }
 .operation-close { position: absolute; right: 16px; top: 20px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #f6f7f7; }
 .operation-close svg { width: 19px; height: 19px; }
-.operation-content { padding-bottom: calc(48px + var(--safe-bottom)); }
+.operation-content { padding-bottom: 24px; }
 .operation-hero { display: flex; flex-direction: column; align-items: center; padding-inline: 20px; }
 .operation-logo { display: block; width: 78px; height: 78px; margin-bottom: 16px; }
 .operation-name { margin: 0; font-size: 17px; font-weight: 400; line-height: 24px; max-width: 100%; overflow-wrap: anywhere; text-align: center; }
@@ -73,14 +74,14 @@ button svg { flex-shrink: 0; }
 .operation-phone-label { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
 .operation-phone { font-size: 17px; line-height: 23px; overflow-wrap: anywhere; }
 
-/* Receipt is deliberately a labelled sample: no copied signature or seal. */
-.receipt-screen { background: #000; }
+/* Reference layout and wording; the complete paper stays watermarked. */
+.receipt-screen { background: #fff; }
 .receipt-header { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 55px; padding: 0 16px; background: #fff; border-radius: 11px 11px 0 0; }
 .receipt-header h1 { font-size: 17px; font-weight: 650; }
 .receipt-close { justify-self: start; background: none; padding-block: 10px; color: var(--blue); font-size: 17px; }
 .receipt-share { justify-self: end; display: grid; place-items: center; width: 30px; height: 36px; background: none; }
 .receipt-share svg { width: 24px; height: 24px; }
-.receipt-scroll { padding: 0 6px calc(55px + var(--safe-bottom)); }
+.receipt-scroll { padding: 0 6px 22px; }
 .receipt-paper { position: relative; overflow: hidden; padding: 38px 27px 31px; background: #fff; border: 1px solid #ececec; border-top: none; box-shadow: 0 1px 5px #0000000b; }
 .receipt-logo { display: block; width: 47px; height: 41px; margin: 0 auto 32px; }
 .receipt-date { color: #999; font-size: 10px; line-height: 14px; margin-bottom: 6px; }
@@ -89,14 +90,13 @@ button svg { flex-shrink: 0; }
 .receipt-table { display: grid; gap: 14px; margin: 18px 0 25px; font-size: 12px; line-height: 15px; }
 .receipt-row { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1.35fr); gap: 10px; align-items: start; }
 .receipt-row dt { color: #424242; }
-.receipt-row dd { text-align: right; min-width: 0; overflow-wrap: anywhere; }
-.receipt-sample-stamp { position: relative; display: flex; justify-content: center; flex-direction: column; align-items: center; gap: 4px; border: 1.5px solid #367da5; color: #367da5; text-align: center; padding: 9px 10px; width: 76%; margin: 0 0 42px auto; min-height: 72px; font-size: 11px; font-weight: 650; line-height: 14px; }
-.receipt-sample-stamp strong { font-size: 17px; letter-spacing: 2px; }
+.receipt-row dd { text-align: right; min-width: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.receipt-reference-stamp { display: block; width: 78%; height: auto; max-width: 100%; margin: 0 0 42px auto; mix-blend-mode: multiply; }
 .receipt-watermarks { position: absolute; inset: 145px 0 100px; pointer-events: none; display: flex; flex-direction: column; justify-content: space-around; overflow: hidden; }
-.receipt-watermarks span { display: block; transform: rotate(-28deg); text-align: center; font-size: 33px; letter-spacing: 4px; font-weight: 800; color: #35648521; white-space: nowrap; }
+.receipt-watermarks span { display: block; transform: rotate(-28deg); text-align: center; font-size: 33px; letter-spacing: 4px; font-weight: 800; color: #35648532; white-space: nowrap; }
 .receipt-footer { font-size: 12px; line-height: 17px; padding-top: 18px; display: grid; gap: 9px; }
 .receipt-footer p + p { color: #999; }
-.receipt-footer .receipt-demo-note { color: #367da5; font-weight: 600; }
+.receipt-sample-caption { margin-top: 12px; padding-inline: 16px; color: #637482; font-size: 11px; line-height: 16px; text-align: center; }
 .demo-notice { margin: 8px 16px 12px; font-size: 12px; line-height: 17px; color: #6c7077; }
 .category-editor { position: fixed; inset: 0; z-index: 110; display: grid; place-items: end center; padding: 16px 16px calc(20px + var(--safe-bottom)); background: #0006; }
 .category-editor-card { display: grid; gap: 14px; padding: 22px; background: white; border-radius: 24px; width: 100%; max-width: 398px; }
@@ -109,15 +109,15 @@ button svg { flex-shrink: 0; }
 
 /* Reference IMG_4796: sheet rises, the complete check springs into place, a
    green pulse expands, then the same check travels to the small status badge. */
-.confirmation-screen { background: #000; }
-.confirmation-sheet { position: relative; width: 100%; min-height: max(720px, calc(100svh - 70px)); border-radius: 12px 12px 0 0; background: #fff; overflow: hidden; }
+.confirmation-screen { background: #fff; }
+.confirmation-sheet { position: relative; flex: 1; width: 100%; min-height: max(640px, calc(var(--app-height) - var(--app-header-height) - var(--demo-footer-height))); border-radius: 12px 12px 0 0; background: #fff; overflow: hidden; }
 .confirmation-close { position: absolute; left: 20px; top: 18px; z-index: 5; padding: 1px 0 10px; color: var(--blue); font-size: 17px; background: none; }
 .confirmation-bank { position: absolute; top: 58px; left: 50%; width: 80px; height: 80px; transform: translateX(-50%); opacity: 0; z-index: 2; transition: opacity 300ms ease 140ms; }
 .confirmation-bank > svg { display: block; width: 100%; height: 100%; }
-.confirmation-tick { position: absolute; top: calc(50svh - 85px); left: 50%; width: 80px; height: 80px; border-radius: 50%; border: 0 solid #fff; background: #2bc955; display: grid; place-items: center; transform: translate(-50%, -50%); z-index: 3; transition: top 560ms cubic-bezier(.22,.8,.25,1), left 560ms cubic-bezier(.22,.8,.25,1), width 560ms cubic-bezier(.22,.8,.25,1), height 560ms cubic-bezier(.22,.8,.25,1), border-width 560ms ease; }
+.confirmation-tick { position: absolute; top: calc(var(--app-midpoint) - var(--app-header-height) - 15px); left: 50%; width: 80px; height: 80px; border-radius: 50%; border: 0 solid #fff; background: #2bc955; display: grid; place-items: center; transform: translate(-50%, -50%); z-index: 3; transition: top 560ms cubic-bezier(.22,.8,.25,1), left 560ms cubic-bezier(.22,.8,.25,1), width 560ms cubic-bezier(.22,.8,.25,1), height 560ms cubic-bezier(.22,.8,.25,1), border-width 560ms ease; }
 .confirmation-tick > svg { width: 62%; height: 62%; }
-.confirmation-amount { position: absolute; top: calc(50svh - 20px); left: 16px; right: 16px; font-size: 30px; font-weight: 700; line-height: 36px; letter-spacing: -.8px; text-align: center; z-index: 3; overflow-wrap: anywhere; transition: top 560ms cubic-bezier(.22,.8,.25,1); }
-.confirmation-pulse { position: absolute; top: calc(50svh - 85px); left: 50%; width: 260px; height: 260px; border-radius: 50%; transform: translate(-50%, -50%) scale(.2); opacity: 0; background: radial-gradient(circle, #81e8a549 0, #b8f1ce36 28%, #d1f7dc20 55%, #fff0 72%); pointer-events: none; z-index: 0; }
+.confirmation-amount { position: absolute; top: calc(var(--app-midpoint) - var(--app-header-height) + 50px); left: 16px; right: 16px; font-size: 30px; font-weight: 700; line-height: 36px; letter-spacing: -.8px; text-align: center; z-index: 3; overflow-wrap: anywhere; transition: top 560ms cubic-bezier(.22,.8,.25,1); }
+.confirmation-pulse { position: absolute; top: calc(var(--app-midpoint) - var(--app-header-height) - 15px); left: 50%; width: 260px; height: 260px; border-radius: 50%; transform: translate(-50%, -50%) scale(.2); opacity: 0; background: radial-gradient(circle, #81e8a549 0, #b8f1ce36 28%, #d1f7dc20 55%, #fff0 72%); pointer-events: none; z-index: 0; }
 .confirmation-details { opacity: 0; visibility: hidden; transition: opacity 300ms ease 160ms; }
 .confirmation-recipient { position: absolute; top: 154px; left: 20px; right: 20px; text-align: center; }
 .confirmation-recipient h1 { font-size: 17px; font-weight: 400; line-height: 24px; overflow-wrap: anywhere; }
@@ -130,7 +130,7 @@ button svg { flex-shrink: 0; }
 .confirmation-account .operation-account { gap: 16px; }
 .confirmation-balances { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; color: #8e9497; font-size: 13px; line-height: 19px; }
 .confirmation-balances s { text-decoration-thickness: 1px; }
-.confirmation-done { position: absolute; bottom: calc(52px + var(--safe-bottom)); left: 16px; right: 16px; min-height: 58px; padding: 14px; background: #ffdd2d; font-size: 18px; border-radius: 17px; }
+.confirmation-done { position: absolute; bottom: 20px; left: 16px; right: 16px; min-height: 58px; padding: 14px; background: #ffdd2d; font-size: 18px; border-radius: 17px; }
 .confirmation-sheet[data-phase="intro"] { animation: confirmationSheetIn 500ms cubic-bezier(.2,.75,.26,1) both; }
 .confirmation-sheet[data-phase="intro"] .confirmation-tick { animation: confirmationBounce 650ms 140ms both; }
 .confirmation-sheet[data-phase="intro"] .confirmation-pulse { animation: confirmationPulse 800ms 570ms both; }
@@ -155,7 +155,9 @@ button svg { flex-shrink: 0; }
 @keyframes referenceSheetIn { from { transform: translateY(30px); } to { transform: translateY(0); } }
 
 /* Shared mobile fixes. Legacy class names belong to the supplied application. */
-._nav_1h6e9_1 { padding-bottom: max(12px, var(--safe-bottom)); }
+._screen_riypy_1, ._screen_15ho2_1, ._screen_1t5vl_1, ._screen_55ji0_1, ._screen_cjsg3_1, ._screen_1vfp6_1 { min-height: var(--app-height); }
+._nav_1h6e9_1 { padding-bottom: calc(max(12px, var(--safe-bottom)) + 22px); }
+._fab_15ho2_229 { bottom: calc(96px + var(--safe-bottom)); }
 ._footer_1t5vl_167 { padding-bottom: max(16px, var(--safe-bottom)); }
 ._screen_1t5vl_1 .demo-notice { margin: 0; padding: 0 16px 10px; }
 ._header_1vfp6_11, ._header_1t5vl_11, ._header_15ho2_12 { min-height: 51px; }
@@ -169,10 +171,7 @@ button svg { flex-shrink: 0; }
 ._userAvatar_riypy_33 { color: #fff; }
 
 @media (max-width: 359px) {
-  .demo-status { padding-inline: 20px; }
-  .status-symbols { gap: 4px; }
-  .status-clock { font-size: 16px; }
-  .status-brand { padding-inline: 11px; }
+  .demo-status { padding-inline: 16px; }
   .operation-top { padding-inline: 47px; }
   .operation-date { font-size: 14px; }
   .operation-cards { padding-inline: 12px; }
@@ -192,5 +191,5 @@ button svg { flex-shrink: 0; }
   .receipt-sheet::before { display: none; }
   .receipt-scroll { padding: 0; }
   .receipt-paper { border: 0; box-shadow: none; }
-  .receipt-watermarks, .receipt-sample-stamp, .receipt-demo-note { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .receipt-watermarks, .receipt-sample-caption, .app-demo-caption { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }

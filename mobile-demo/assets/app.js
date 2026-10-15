@@ -150,10 +150,7 @@ Object.assign(ICONS, {
 // ============ COMPONENTS ============
 function statusBar() {
   return `<header class="demo-status" aria-label="Демонстрационное приложение. Реальные платежи не выполняются.">
-    <div class="status-clock" aria-hidden="true"><span class="_time_12kgh_9">${nowTime()}</span>${ICONS.silent}</div>
-    <span class="status-brand" aria-hidden="true">Т-БАНК</span>
-    <div class="status-symbols" aria-hidden="true">${ICONS.statusSignal}${ICONS.statusWifi}<div class="status-battery"><span>24</span></div></div>
-    <span class="status-demo">ДЕМОПРИЛОЖЕНИЕ</span>
+    <span class="status-brand">Т-БАНК</span>
   </header>`;
 }
 
@@ -596,13 +593,13 @@ function screenReceipt() {
   if (!tr) return screenHome();
   const rows = [
     ['Перевод', 'По номеру телефона'],
-    ['Статус', 'Успешно · демо'],
+    ['Статус', 'Успешно'],
     ['Сумма', `${fmt(tr.amt)} ₽`],
     ['Комиссия', '0 ₽'],
     ['Отправитель', tr.senderName || state.senderName],
     ...(tr.phone ? [['Телефон получателя', formatPhone(tr.phone)]] : []),
     ['Получатель', tr.name || tr.recipient || ''],
-    ['Описание операции', 'Учебный внутренний перевод. Реальный платёж не выполнялся.'],
+    ['Описание операции', tr.description || `Внутренний перевод на договор${tr.contractNo ? '\n' + tr.contractNo : ''}`],
   ];
   return `
     <div class="_screen_cjsg3_1 receipt-screen">
@@ -622,15 +619,16 @@ function screenReceipt() {
             <dl class="receipt-table">
               ${rows.map(([label, value]) => `<div class="receipt-row"><dt>${label}</dt><dd>${escapeHTML(value)}</dd></div>`).join('')}
             </dl>
-            <div class="receipt-sample-stamp"><strong>ОБРАЗЕЦ</strong><span>ДЕМОНСТРАЦИОННАЯ ОПЕРАЦИЯ</span><span>Не подтверждает оплату</span></div>
+            <img src="assets/reference-stamp.png" class="receipt-reference-stamp" alt="Изображение печати из референса, учебный образец">
             <div class="receipt-divider"></div>
             <footer class="receipt-footer">
-              <p>Образец квитанции № DEMO-${escapeHTML(tr.id)}</p>
-              <p>Все данные приведены для демонстрации интерфейса.</p>
-              <p class="receipt-demo-note">Не является банковским документом. Реальный перевод не выполнялся.</p>
+              <p>Квитанция № ${escapeHTML(tr.receiptNo || 'DEMO-' + tr.id)}</p>
+              <p>По вопросам зачисления обращайтесь к получателю</p>
+              <p>Служба поддержки fb@tbank.ru</p>
             </footer>
             <div class="receipt-watermarks" aria-hidden="true"><span>ОБРАЗЕЦ · ДЕМО</span><span>ОБРАЗЕЦ · ДЕМО</span><span>ОБРАЗЕЦ · ДЕМО</span></div>
           </article>
+          <p class="receipt-sample-caption">Учебный образец. Не является банковским документом.</p>
         </div>
       </section>
     </div>
@@ -754,6 +752,7 @@ function render() {
     settings: screenSettings,
   };
   root.innerHTML = (screens[state.screen] || screenHome)();
+  root.firstElementChild?.insertAdjacentHTML('beforeend', '<footer class="app-demo-caption">Учебный макет</footer>');
   attachHandlers();
   if (previousScreen !== state.screen) window.scrollTo(0, 0);
 }
@@ -1013,7 +1012,3 @@ if (isPreview) {
     successIntro: previewScreen === 'success', selectedOp: example };
 }
 render();
-setInterval(() => {
-  const times = document.querySelectorAll('._time_12kgh_9');
-  times.forEach(t => t.textContent = nowTime());
-}, 30000);
