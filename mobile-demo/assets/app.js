@@ -150,12 +150,12 @@ Object.assign(ICONS, {
 // ============ RECIPIENT BANKS ============
 const BANKS = [
   { id: 'tbank', name: 'Т-Банк', logo: 'assets/banks/tbank.png' },
-  { id: 'sber', name: 'Сбер', logo: 'assets/banks/sber.png' },
+  { id: 'sber', name: 'Сбер', receiptName: 'Сбербанк', logo: 'assets/banks/sber.png' },
   { id: 'alfa', name: 'Альфа-Банк', logo: 'assets/banks/alfa.svg' },
   { id: 'vtb', name: 'ВТБ', logo: 'assets/banks/vtb.svg' },
   { id: 'gazprom', name: 'Газпромбанк', logo: 'assets/banks/gazprom.png' },
-  { id: 'ozon', name: 'Ozon Банк', logo: 'assets/banks/ozon.jpg' },
-  { id: 'wb', name: 'WB Банк', logo: 'assets/banks/wb.png' },
+  { id: 'ozon', name: 'Ozon Банк', receiptName: 'Озон Банк (Ozon)', logo: 'assets/banks/ozon.jpg' },
+  { id: 'wb', name: 'WB Банк', receiptName: 'Wildberries (Вайлдберриз Банк)', logo: 'assets/banks/wb.png' },
 ];
 const bankById = id => BANKS.find(bank => bank.id === id) || BANKS[0];
 
@@ -612,19 +612,33 @@ function sheetDelete() {
 }
 
 // ============ SCREEN: RECEIPT ============
+// Fixed display examples from the supplied reference, never returned by a bank.
+const RECEIPT_REFERENCE = {
+  sbpId: 'B62882045098130L0B10180011870702',
+  debitAccount: '408178100000****8320',
+};
+
 function screenReceipt() {
   // Always use the operation the user opened, not the last created transfer.
   const tr = state.selectedOp;
   if (!tr) return screenHome();
+  const bank = bankById(tr.bankId);
+  const phone = tr.phone ? formatPhone(tr.phone) : '';
+  const description = bank.id === 'tbank'
+    ? `Внутренний перевод на договор${tr.contractNo ? '\n' + tr.contractNo : ''}`
+    : `Внешний перевод по номеру${phone ? '\nтелефона +' + phone.replace(/\D/g, '') : ' телефона'}`;
   const rows = [
     ['Перевод', 'По номеру телефона'],
     ['Статус', 'Успешно'],
     ['Сумма', `${fmt(tr.amt)} ₽`],
     ['Комиссия', '0 ₽'],
     ['Отправитель', tr.senderName || state.senderName],
-    ...(tr.phone ? [['Телефон получателя', formatPhone(tr.phone)]] : []),
+    ...(phone ? [['Телефон получателя', phone]] : []),
     ['Получатель', tr.name || tr.recipient || ''],
-    ['Описание операции', tr.description || `Внутренний перевод на договор${tr.contractNo ? '\n' + tr.contractNo : ''}`],
+    ['Банк получателя', bank.receiptName || bank.name],
+    ['Идентификатор операции\nСБП', RECEIPT_REFERENCE.sbpId.replace(/(.{5})$/, '\n$1'), 'sbp'],
+    ['Описание операции', tr.description || description],
+    ['Счет списания', RECEIPT_REFERENCE.debitAccount],
   ];
   return `
     <div class="_screen_cjsg3_1 receipt-screen">
@@ -636,13 +650,13 @@ function screenReceipt() {
           <button class="receipt-share" id="shareReceipt" aria-label="Поделиться демообразцом">${ICONS.share}</button>
         </div>
         <div class="receipt-scroll">
-          <article class="receipt-paper">
+          <article class="receipt-paper receipt-paper--sbp">
             <img src="assets/receipt-mark.svg" class="receipt-logo" alt="">
             <p class="receipt-date">${escapeHTML(tr.receiptDate || tr.dateLong || tr.date)}</p>
             <div class="receipt-total"><span>Итого</span><span>${fmt(tr.amt)} ₽</span></div>
             <div class="receipt-divider"></div>
             <dl class="receipt-table">
-              ${rows.map(([label, value]) => `<div class="receipt-row"><dt>${label}</dt><dd>${escapeHTML(value)}</dd></div>`).join('')}
+              ${rows.map(([label, value, type]) => `<div class="receipt-row${type ? ' receipt-row--' + type : ''}"><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd></div>`).join('')}
             </dl>
             <img src="assets/reference-stamp.png" class="receipt-reference-stamp" alt="Изображение печати из референса, учебный образец">
             <div class="receipt-divider"></div>
