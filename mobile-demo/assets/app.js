@@ -151,8 +151,11 @@ Object.assign(ICONS, {
 const BANKS = [
   { id: 'tbank', name: 'Т-Банк', logo: 'assets/banks/tbank.png' },
   { id: 'sber', name: 'Сбер', logo: 'assets/banks/sber.png' },
-  { id: 'wb', name: 'WB Банк', logo: 'assets/banks/wb.png' },
+  { id: 'alfa', name: 'Альфа-Банк', logo: 'assets/banks/alfa.svg' },
+  { id: 'vtb', name: 'ВТБ', logo: 'assets/banks/vtb.svg' },
   { id: 'gazprom', name: 'Газпромбанк', logo: 'assets/banks/gazprom.png' },
+  { id: 'ozon', name: 'Ozon Банк', logo: 'assets/banks/ozon.jpg' },
+  { id: 'wb', name: 'WB Банк', logo: 'assets/banks/wb.png' },
 ];
 const bankById = id => BANKS.find(bank => bank.id === id) || BANKS[0];
 
@@ -648,9 +651,8 @@ function screenReceipt() {
               <p>По вопросам зачисления обращайтесь к получателю</p>
               <p>Служба поддержки fb@tbank.ru</p>
             </footer>
-            <div class="receipt-watermarks" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="receipt-watermarks" aria-hidden="true"><span>ДЕМО · ОБРАЗЕЦ</span></div>
           </article>
-          <p class="receipt-sample-caption" </p>
         </div>
       </section>
     </div>
@@ -660,7 +662,7 @@ function screenReceipt() {
 async function shareReceipt() {
   const op = state.selectedOp;
   if (!op) return;
-  const text = `\nДемонстрационная операция № 1-102-467-157-376  \nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
+  const text = `ДЕМО · ОБРАЗЕЦ\nДемонстрационная операция № 1-102-467-157-376\nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
   try {
     if (navigator.share) {
       await navigator.share({ title: 'Образец квитанции — ДЕМО', text });

@@ -28,7 +28,7 @@ button { color: inherit; }
 button:focus-visible, [tabindex]:focus-visible { outline: 3px solid #438cf580; outline-offset: 3px; }
 button:disabled { cursor: default; }
 button svg { flex-shrink: 0; }
-.bank-logo { display: block; flex-shrink: 0; }
+.bank-logo { display: block; flex-shrink: 0; border-radius: 50%; overflow: hidden; }
 .bank-logo img, .bank-logo svg { display: block; width: 100%; height: 100%; }
 .operation-list-bank { width: 44px; height: 44px; }
 .bank-select-row { display: flex; align-items: center; gap: 12px; }
@@ -98,11 +98,10 @@ button svg { flex-shrink: 0; }
 .receipt-row dt { color: #424242; }
 .receipt-row dd { text-align: right; min-width: 0; overflow-wrap: anywhere; white-space: pre-line; }
 .receipt-reference-stamp { display: block; width: 78%; height: auto; max-width: 100%; margin: 0 0 42px auto; mix-blend-mode: multiply; }
-.receipt-watermarks { position: absolute; inset: 145px 0 100px; pointer-events: none; display: flex; flex-direction: column; justify-content: space-around; overflow: hidden; }
-.receipt-watermarks span { display: block; transform: rotate(-28deg); text-align: center; font-size: 33px; letter-spacing: 4px; font-weight: 800; color: #35648532; white-space: nowrap; }
+.receipt-watermarks { position: absolute; z-index: 1; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.receipt-watermarks span { display: block; transform: rotate(-30deg); text-align: center; font-size: clamp(27px, 8.1vw, 35px); letter-spacing: 1.6px; font-weight: 800; color: #35648550; white-space: nowrap; }
 .receipt-footer { font-size: 12px; line-height: 17px; padding-top: 18px; display: grid; gap: 9px; }
 .receipt-footer p + p { color: #999; }
-.receipt-sample-caption { margin-top: 12px; padding-inline: 16px; color: #637482; font-size: 11px; line-height: 16px; text-align: center; }
 .demo-notice { margin: 8px 16px 12px; font-size: 12px; line-height: 17px; color: #6c7077; }
 .category-editor { position: fixed; inset: 0; z-index: 110; display: grid; place-items: end center; padding: 16px 16px calc(20px + var(--safe-bottom)); background: #0006; }
 .category-editor-card { display: grid; gap: 14px; padding: 22px; background: white; border-radius: 24px; width: 100%; max-width: 398px; }
@@ -196,5 +195,5 @@ button svg { flex-shrink: 0; }
   .receipt-sheet::before { display: none; }
   .receipt-scroll { padding: 0; }
   .receipt-paper { border: 0; box-shadow: none; }
-  .receipt-watermarks, .receipt-sample-caption { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .receipt-watermarks { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
