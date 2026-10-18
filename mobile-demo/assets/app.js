@@ -623,8 +623,9 @@ function screenReceipt() {
   const tr = state.selectedOp;
   if (!tr) return screenHome();
   const bank = bankById(tr.bankId);
+  const isInternalTransfer = bank.id === 'tbank';
   const phone = tr.phone ? formatPhone(tr.phone) : '';
-  const description = bank.id === 'tbank'
+  const description = isInternalTransfer
     ? `Внутренний перевод на договор${tr.contractNo ? '\n' + tr.contractNo : ''}`
     : `Внешний перевод по номеру${phone ? '\nтелефона +' + phone.replace(/\D/g, '') : ' телефона'}`;
   const rows = [
@@ -635,10 +636,14 @@ function screenReceipt() {
     ['Отправитель', tr.senderName || state.senderName],
     ...(phone ? [['Телефон получателя', phone]] : []),
     ['Получатель', tr.name || tr.recipient || ''],
-    ['Банк получателя', bank.receiptName || bank.name],
-    ['Идентификатор операции\nСБП', RECEIPT_REFERENCE.sbpId.replace(/(.{5})$/, '\n$1'), 'sbp'],
-    ['Описание операции', tr.description || description],
-    ['Счет списания', RECEIPT_REFERENCE.debitAccount],
+    ...(isInternalTransfer
+      ? [['Описание операции', tr.description || description]]
+      : [
+          ['Банк получателя', bank.receiptName || bank.name],
+          ['Идентификатор операции\nСБП', RECEIPT_REFERENCE.sbpId.replace(/(.{5})$/, '\n$1'), 'sbp'],
+          ['Описание операции', tr.description || description],
+          ['Счет списания', RECEIPT_REFERENCE.debitAccount],
+        ]),
   ];
   return `
     <div class="_screen_cjsg3_1 receipt-screen">
@@ -650,7 +655,7 @@ function screenReceipt() {
           <button class="receipt-share" id="shareReceipt" aria-label="Поделиться демообразцом">${ICONS.share}</button>
         </div>
         <div class="receipt-scroll">
-          <article class="receipt-paper receipt-paper--sbp">
+          <article class="receipt-paper receipt-paper--${isInternalTransfer ? 'internal' : 'external'}">
             <img src="assets/receipt-mark.svg" class="receipt-logo" alt="">
             <p class="receipt-date">${escapeHTML(tr.receiptDate || tr.dateLong || tr.date)}</p>
             <div class="receipt-total"><span>Итого</span><span>${fmt(tr.amt)} ₽</span></div>

@@ -95,18 +95,19 @@ button svg { flex-shrink: 0; }
 .receipt-share { justify-self: end; display: grid; place-items: center; width: 30px; height: 36px; background: none; }
 .receipt-share svg { width: 24px; height: 24px; }
 .receipt-scroll { padding: 0 6px calc(22px + var(--safe-bottom)); }
-.receipt-paper { position: relative; overflow: hidden; padding: 38px 27px 31px; background: #fff; border: 1px solid #ececec; border-top: none; box-shadow: 0 1px 5px #0000000b; font-family: 'Receipt Condensed', Arial, sans-serif; }
+.receipt-paper { position: relative; overflow: hidden; padding: 38px 27px 31px; background: #fff; border: 1px solid #ececec; border-top: none; box-shadow: 0 1px 5px #0000000b; font-family: Arial, sans-serif; }
 .receipt-logo { display: block; width: 47px; height: 41px; margin: 0 auto 32px; }
-.receipt-paper--sbp { padding-top: 0; }
-.receipt-paper--sbp .receipt-logo { width: 40px; height: 32px; }
+.receipt-paper--external { padding-top: 0; font-family: 'Receipt Condensed', Arial, sans-serif; }
+.receipt-paper--external .receipt-logo { width: 40px; height: 32px; }
 .receipt-date { color: #999; font-size: 10px; line-height: 14px; margin-bottom: 6px; }
 .receipt-total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-family: Arial, sans-serif; font-size: 21px; font-weight: 700; margin-bottom: 16px; }
 .receipt-divider { height: 1.5px; background: var(--yellow); width: 100%; }
 .receipt-table { display: grid; gap: 14px; margin: 18px 0 25px; font-size: 12px; line-height: 15px; }
-.receipt-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 10px; align-items: start; }
+.receipt-row { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1.35fr); gap: 10px; align-items: start; }
 .receipt-row dt { color: #424242; white-space: pre-line; }
 .receipt-row dd { text-align: right; min-width: 0; overflow-wrap: anywhere; white-space: pre-line; }
-.receipt-row--sbp { font-size: clamp(10px, 3.05vw, 12px); }
+.receipt-paper--external .receipt-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+.receipt-paper--external .receipt-row--sbp { font-size: clamp(10px, 3.05vw, 12px); }
 .receipt-reference-stamp { display: block; width: 78%; height: auto; max-width: 100%; margin: 0 0 42px auto; mix-blend-mode: multiply; }
 .receipt-watermarks { position: absolute; z-index: 1; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .receipt-watermarks span { display: block; transform: rotate(-30deg); text-align: center; font-size: clamp(27px, 8.1vw, 35px); letter-spacing: 1.6px; font-weight: 800; color: #35648550; white-space: nowrap; }
