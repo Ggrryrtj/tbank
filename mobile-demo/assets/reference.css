@@ -141,7 +141,7 @@ button svg { flex-shrink: 0; }
 .confirmation-receipt svg { width: 24px; height: 24px; }
 .confirmation-account { position: absolute; top: 365px; left: 16px; right: 16px; min-height: 120px; padding-bottom: 18px; }
 .confirmation-account h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; line-height: 25px; margin-bottom: 17px; }
-.confirmation-account h2 > svg { flex-shrink: 0; width: 31px; height: 23px; }
+.confirmation-account h2 > .sbp-mark { display: block; flex-shrink: 0; width: 42px; height: 24px; object-fit: contain; }
 .confirmation-account .operation-account { gap: 16px; }
 .confirmation-balances { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; color: #8e9497; font-size: 13px; line-height: 19px; }
 .confirmation-balances s { text-decoration-thickness: 1px; }

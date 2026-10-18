@@ -144,7 +144,7 @@ Object.assign(ICONS, {
   statusWifi: svg('<path d="M2 7a16 16 0 0 1 20 0M5 11a11 11 0 0 1 14 0M8.5 15a5.5 5.5 0 0 1 7 0" stroke="white" stroke-width="2.7" stroke-linecap="round"/><path d="m10 18 2 3 2-3h-4Z" fill="white"/>'),
   successCheck: svg('<path d="m5 12 4.5 4.5L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'),
   receipt: svg('<path d="M5 3h14v19l-3-2-4 2-4-2-3 2V3Z" fill="#8CB9FA"/><path d="M3 2h18v3H3V2Z" fill="#438CF5"/><path d="M8 9h8M8 13h6" stroke="#438CF5" stroke-width="2" stroke-linecap="round"/>'),
-  sbp: svg('<path d="M2 2v20l6-5V7L2 2Z" fill="#784B9F"/><path d="m2 2 12 7-6 4V7L2 2Z" fill="#E62C6C"/><path d="m2 22 12-7-6-4v6l-6 5Z" fill="#28A8DD"/><path d="m9 7 12 7-7 4-5-3 6-1-6-4V7Z" fill="#42B472"/><path d="m9 7 12 7-5-8-7-5v6Z" fill="#F7B42C"/>', 32, 23),
+  sbp: '<img class="sbp-mark" src="assets/sbp-mark.png" alt="" aria-hidden="true">',
 });
 
 // ============ RECIPIENT BANKS ============
