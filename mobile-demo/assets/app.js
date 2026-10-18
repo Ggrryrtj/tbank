@@ -681,10 +681,10 @@ function screenReceipt() {
 async function shareReceipt() {
   const op = state.selectedOp;
   if (!op) return;
-  const text = `ДЕМО · ОБРАЗЕЦ\nДемонстрационная операция № 1-102-467-157-376\nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
+  const text = `\nДемонстрационная операция № 1-102-467-157-376\nСумма: ${fmt(op.amt)} ₽\nРеальный перевод не выполнялся.`;
   try {
     if (navigator.share) {
-      await navigator.share({ title: 'Образец квитанции — ДЕМО', text });
+      await navigator.share({ title: '', text });
     } else {
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
