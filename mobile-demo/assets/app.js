@@ -670,7 +670,7 @@ function screenReceipt() {
               <p>По вопросам зачисления обращайтесь к получателю</p>
               <p>Служба поддержки fb@tbank.ru</p>
             </footer>
-            <div class="receipt-watermarks" aria-hidden="true"><span>ДЕМО · ОБРАЗЕЦ</span></div>
+            <div class="receipt-watermarks" aria-hidden="true"><span></span></div>
           </article>
         </div>
       </section>
